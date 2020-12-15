@@ -1,28 +1,50 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header class="App-header">
+          <h1>Pokemon</h1>
+    </header>
+    <search v-on:search="getPokemon($event)" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import search from './components/search.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    'search': search
+  },
+  data() {
+    return {
+     
+    }
+    
+  },
+  methods: {
+    getPokemon: function(pokemon) {
+      console.log(pokemon)
+    }
   }
 }
 </script>
 
 <style>
+body {
+  margin: 0;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  min-height: 140vh;
+  background-color: #282c34;
+  height: 100%;
+  width: 100%;
+}
+.App-header {
+  margin-bottom: 10px;
+  padding-top: 5px;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  text-align: center;
 }
 </style>
