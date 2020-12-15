@@ -4,26 +4,55 @@
           <h1>Pokemon</h1>
     </header>
     <search v-on:search="getPokemon($event)" />
+    <contents />
   </div>
 </template>
 
 <script>
 import search from './components/search.vue';
+import contents from './components/contents.vue';
 
 export default {
   name: 'App',
   components: {
-    'search': search
+    'search': search,
+    'contents': contents
   },
   data() {
     return {
-     
+     pokemon: {
+      name: '',
+      id: 0,
+      abilities: [],
+      picture: '',
+      habitat: '',
+      colour: ''
+     }
     }
     
   },
   methods: {
-    getPokemon: function(pokemon) {
-      console.log(pokemon)
+    getPokemon: function(input) {
+      this.axios.get("https://pokeapi.co/api/v2/pokemon/" + input)
+      .then(pokemon => {
+        return Promise.all([
+          pokemon,
+          this.axios.get(
+            "https://pokeapi.co/api/v2/pokemon-species/" + pokemon.data.id
+          )
+        ]);
+      })
+      .then(response => {
+        this.pokemon.name=input;
+        this.pokemon.id=response[0].data.id;
+        this.pokemon.abilities=response[0].data.abilities;
+        this.pokemon.picture=response[0].data.sprites.front_default;
+        this.pokemon.type=response[0].data.types[0].type.name;
+        this.pokemon.habitat=response[1].data.habitat.name;
+        this.pokemon.colour=response[1].data.color.name;
+      }
+
+      )
     }
   }
 }

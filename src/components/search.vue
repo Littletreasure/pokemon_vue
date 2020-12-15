@@ -3,7 +3,7 @@
     <form>
           <label>Please enter a Pokemon name:</label>
             <input type="text" v-model="pokemon" />
-            <button v-on:click.prevent="$emit('search', pokemon)">Pick me!</button>
+            <button v-on:click.prevent="search">Pick me!</button>
     </form>
   </div>
 </template>
@@ -19,7 +19,12 @@ export default {
     }
     
   },
-  
+ methods: {
+   search: function() {
+     this.$emit('search', this.pokemon);
+     this.pokemon=''
+   }
+ } 
 }
 </script>
 
