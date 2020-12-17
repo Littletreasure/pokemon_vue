@@ -3,7 +3,8 @@
     <header class="App-header">
           <h1>Pokemon</h1>
     </header>
-    <search v-on:search="getPokemon($event)" />
+    <search v-on:search="getPokemon($event)" v-on:reset="resetPokemon($event)" />
+    <p id="error" v-if="error">Search term not valid</p>
     <contents v-if="content" v-bind:pokemon="pokemon" />
   </div>
 </template>
@@ -28,6 +29,7 @@ export default {
       habitat: '',
       colour: ''
      },
+     error: false,
      content: false
     }
     
@@ -53,9 +55,17 @@ export default {
         this.pokemon.habitat=response[1].data.habitat.name;
         this.pokemon.colour=response[1].data.color.name;
         this.content=true;
+        this.error=false;
       }
 
       )
+      .catch(err => {
+        this.error=true;
+      })
+    },
+    resetPokemon: function() {
+      this.content=false;
+      this.error=false;
     }
   }
 }
@@ -78,5 +88,9 @@ body {
   font-size: calc(10px + 2vmin);
   color: white;
   text-align: center;
+}
+#error {
+  font-size: 25px;
+  color:red;
 }
 </style>

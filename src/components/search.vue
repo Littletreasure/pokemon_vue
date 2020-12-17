@@ -5,6 +5,7 @@
             <input type="text" v-model="pokemon" />
             <button v-on:click.prevent="search">Pick me!</button>
     </form>
+    <button v-on:click.prevent="reset">Reset</button>
   </div>
 </template>
 
@@ -23,8 +24,11 @@ export default {
    search: function() {
      this.$emit('search', this.pokemon);
      this.pokemon=''
+   },
+   reset: function() {
+     this.$emit('reset');
    }
- } 
+ }
 }
 </script>
 
