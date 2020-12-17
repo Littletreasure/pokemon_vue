@@ -4,7 +4,7 @@
           <h1>Pokemon</h1>
     </header>
     <search v-on:search="getPokemon($event)" />
-    <contents />
+    <contents v-if="content" v-bind:pokemon="pokemon" />
   </div>
 </template>
 
@@ -27,7 +27,8 @@ export default {
       picture: '',
       habitat: '',
       colour: ''
-     }
+     },
+     content: false
     }
     
   },
@@ -43,6 +44,7 @@ export default {
         ]);
       })
       .then(response => {
+        input = input[0].toUpperCase() + input.slice(1);
         this.pokemon.name=input;
         this.pokemon.id=response[0].data.id;
         this.pokemon.abilities=response[0].data.abilities;
@@ -50,6 +52,7 @@ export default {
         this.pokemon.type=response[0].data.types[0].type.name;
         this.pokemon.habitat=response[1].data.habitat.name;
         this.pokemon.colour=response[1].data.color.name;
+        this.content=true;
       }
 
       )
